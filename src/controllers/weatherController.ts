@@ -6,6 +6,7 @@ import {
   generateFranceWeatherData,
   generateLondonWeatherDailyData,
 } from "../services/weatherService.js";
+import {error} from "console";
 
 /**
  * Gets the weather data for a city
@@ -13,6 +14,15 @@ import {
  * @param res the response object
  */
 export const getWeatherData = async (req: Request, res: Response) => {
+  
+  const errors = validationResult(req);
+
+  if(!error.isEmpty()){
+    console.error("Validation error", errors.mapped());
+    res.status(400).json({ errors: errors.array()});
+    return;
+  }
+  
   // We will use a try catch block to catch any errors
   try {
     // Get the city param from the request
