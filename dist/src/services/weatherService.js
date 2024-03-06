@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 export const generateLondonWeatherData = () => {
     // Generate random weather data
     const generatedWeatherData = {

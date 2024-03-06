@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   generateDublinWeatherData,
   generateLondonWeatherData,
   generateNigeriaWeatherData,
   generateFranceWeatherData,
   generateLondonWeatherDailyData,
-} from "../services/weatherService.js";
-import {error} from "console";
+} from '../services/weatherService.js';
 
 /**
  * Gets the weather data for a city
@@ -14,15 +13,6 @@ import {error} from "console";
  * @param res the response object
  */
 export const getWeatherData = async (req: Request, res: Response) => {
-  
-  const errors = validationResult(req);
-
-  if(!error.isEmpty()){
-    console.error("Validation error", errors.mapped());
-    res.status(400).json({ errors: errors.array()});
-    return;
-  }
-  
   // We will use a try catch block to catch any errors
   try {
     // Get the city param from the request
@@ -33,25 +23,25 @@ export const getWeatherData = async (req: Request, res: Response) => {
     let finalWeatherData: WeatherData;
 
     // We will use an if statement to check which city was passed in
-    if (city === "london") {
+    if (city === 'london') {
       console.log(generateLondonWeatherData());
       finalWeatherData = generateLondonWeatherData();
-    } else if (city === "dublin") {
+    } else if (city === 'dublin') {
       finalWeatherData = generateDublinWeatherData();
-    } else if (city === "nigeria") {
+    } else if (city === 'nigeria') {
       finalWeatherData = generateNigeriaWeatherData();
-    } else if (city === "france") {
+    } else if (city === 'france') {
       finalWeatherData = generateFranceWeatherData();
     } else {
       // If the city is not london or dublin, we will throw an error
-      res.status(404).send("City not found");
+      res.status(404).send('City not found');
     }
 
     // We will return the weather data as JSON
     res.status(200).json(finalWeatherData);
   } catch (error) {
     // If there is an error, we will log it and send a 500 status code
-    res.status(500).send("Error in fetching weather data");
+    res.status(500).send('Error in fetching weather data');
   }
 };
 
@@ -66,18 +56,18 @@ export const getWeatherDailyData = async (req: Request, res: Response) => {
     let finalWeatherDailyData: WeatherDailyData;
 
     // We will use an if statement to check which city was passed in
-    if (city === "london") {
+    if (city === 'london') {
       console.log(generateLondonWeatherDailyData());
       finalWeatherDailyData = generateLondonWeatherDailyData();
     } else {
       // If the city is not london or dublin, we will throw an error
-      res.status(404).send("City not found");
+      res.status(404).send('City not found');
     }
 
     // We will return the weather data as JSON
     res.status(200).json(finalWeatherDailyData);
   } catch (error) {
     // If there is an error, we will log it and send a 500 status code
-    res.status(500).send("Error in fetching weather data");
+    res.status(500).send('Error in fetching weather data');
   }
 };
